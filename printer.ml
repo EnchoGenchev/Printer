@@ -16,8 +16,14 @@ let ex7 = P (S "Stanley nickels", L [1000000])
 let rec count_u (p: printable) : int = 
   (*implement steps for the count_u function here.
   This function should count the number of U's that exist within the closure p*)
+  match p with 
+  | U -> 1 
+  | P(p1, p2) -> count_u p1 + count_u p2 
+  | _ -> 0
 
-let rec global_or (p : printable) : bool option = 
+(*
+
+  let rec global_or (p : printable) : bool option = 
   (*implement steps for the global_or here.
   This function should compute the logical or of each boolean within the closure p*)
 
@@ -32,7 +38,7 @@ let rec tostring (p : printable) : string =
   (*convers printable element p to a string*)
 
 
-
+*)
 
 
 
@@ -41,8 +47,19 @@ let rec tostring (p : printable) : string =
 (*Use these lines to test your functions you produce.*)
 
 (*1: *count_u test. Replace ex1 with whichever test you want to run.*)
+(*
+Printf.printf "%i\n" (count_u ex0);;
 Printf.printf "%i\n" (count_u ex1);;
+Printf.printf "%i\n" (count_u ex2);;
+Printf.printf "%i\n" (count_u ex3);;
+Printf.printf "%i\n" (count_u ex4);;
+Printf.printf "%i\n" (count_u ex5);;
+Printf.printf "%i\n" (count_u ex6);;
+Printf.printf "%i\n" (count_u ex7);;
+*)
 
+
+(*
 (*2: global_or test. Replace ex1 with whichever test you want to run.*)
 let test_or = global_or ex1 in 
 match test_or with
@@ -62,4 +79,6 @@ match result with
 
 (*5: test for toString. Replace ex1 with the test*)
 Printf.printf "%s\n" (tostring ex1);;
+
+*)
 
