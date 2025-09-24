@@ -21,12 +21,22 @@ let rec count_u (p: printable) : int =
   | P(p1, p2) -> count_u p1 + count_u p2 
   | _ -> 0
 
-(*
+
 
   let rec global_or (p : printable) : bool option = 
   (*implement steps for the global_or here.
   This function should compute the logical or of each boolean within the closure p*)
+    match p with 
+  | B b -> Some b
+  | P (p1, p2) -> (*parenthesis around match so compiler stop freaking out*)
+      (match (global_or p1, global_or p2) with
+       | Some b1, None -> Some b1
+       | None, Some b2 -> Some b2
+       | Some b1, Some b2 -> Some (b1 || b2)
+       | _ -> None) 
+  | _ -> None
 
+(*
 let rec f_on_int_list (f : int-> int) (p : printable) : printable = 
   (*should traverse a printable p and apply given function f to all elements of each list in p.
   HINT: List.map may come in handy!*)
@@ -59,13 +69,17 @@ Printf.printf "%i\n" (count_u ex7);;
 *)
 
 
-(*
+
 (*2: global_or test. Replace ex1 with whichever test you want to run.*)
-let test_or = global_or ex1 in 
+let test_or = global_or ex5 in 
 match test_or with
-  | Some v -> Printf.printf "%b\n" v
+  | Some v -> Printf.printf " Some %b\n" v
   | None -> Printf.printf "None \n" ;;
 
+
+
+
+  (*
 (*3: test for f_on_int_list. Replace ex1 with whichever test you want to run*)
 let f x = x + 1 in 
 let test_f = f_on_int_list f ex4 in 
