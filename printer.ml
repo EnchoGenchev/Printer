@@ -45,10 +45,24 @@ let rec f_on_int_list (f : int-> int) (p : printable) : printable =
   | P (p1, p2) -> P (f_on_int_list f p1, f_on_int_list f p2)
   | _ -> p (*leaving it the same*)
 
-(*
+(*helper function to *)
+let rec sum_list (l : int list) : int = 
+  match l with
+  | [] -> 0
+  | x::xs -> x + sum_list xs
+
 let rec sum_all_ints (p : printable) : int option = 
   (*should return sum of all integers in printable p*)
-*)
+  match p with
+  | L l -> Some (sum_list l) (*parenthesis so it doesn't freak out*)
+  | P (p1, p2) -> (
+      match (sum_all_ints p1, sum_all_ints p2) with
+      | (Some s1, Some s2) -> Some (s1 + s2)
+      | (Some s, None) | (None, Some s) -> Some s
+      | (None, None) -> None
+    )
+  | _ -> None
+
 
 (*helper function for tostring*)
 let rec string_of_int_list (l : int list) : string =
@@ -89,7 +103,7 @@ let test_or = global_or ex5 in
 match test_or with
   | Some v -> Printf.printf " Some %b\n" v
   | None -> Printf.printf "None \n" ;;
-*)
+
 
 
 
@@ -97,16 +111,18 @@ match test_or with
 let f x = x + 1 in 
 let test_f = f_on_int_list f ex4 in 
 Printf.printf "%s\n" (tostring test_f);;
+*)
 
-(*
 (*4: sum_all_ints test. Replace ex1 with whichever test you want to run*)
-let result = sum_all_ints ex1 in 
+let result = sum_all_ints (f_on_int_list (fun t-> t*t) ex6) in 
 match result with
   | Some v -> Printf.printf "%i\n" v
   | None -> Printf.printf "None \n";;
 
+
+(*
 (*5: test for toString. Replace ex1 with the test*)
 Printf.printf "%s\n" (tostring ex1);;
-
 *)
+
 
