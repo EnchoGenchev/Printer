@@ -36,22 +36,35 @@ let rec count_u (p: printable) : int =
        | _ -> None) 
   | _ -> None
 
-(*
+
 let rec f_on_int_list (f : int-> int) (p : printable) : printable = 
   (*should traverse a printable p and apply given function f to all elements of each list in p.
   HINT: List.map may come in handy!*)
+  match p with
+  | L l -> L (List.map f l) (*added L because has to return type printable*)
+  | P (p1, p2) -> P (f_on_int_list f p1, f_on_int_list f p2)
+  | _ -> p (*leaving it the same*)
 
+(*
 let rec sum_all_ints (p : printable) : int option = 
   (*should return sum of all integers in printable p*)
+*)
+
+(*helper function for tostring*)
+let rec string_of_int_list (l : int list) : string =
+  match l with
+  | [] -> ""
+  | x::xs -> string_of_int x ^ string_of_int_list xs (*adding element and calling recursively*)
 
 let rec tostring (p : printable) : string = 
   (*convers printable element p to a string*)
-
-
-*)
-
-
-
+  match p with
+  | P (p1, p2) -> tostring p1 ^ tostring p2
+  | B b -> string_of_bool b
+  | U -> "U"
+  | S s -> s
+  | L l -> string_of_int_list l
+  (*exhaustive because covers all types*)
 
 ;;
 (*Use these lines to test your functions you produce.*)
@@ -71,20 +84,21 @@ Printf.printf "%i\n" (count_u ex7);;
 
 
 (*2: global_or test. Replace ex1 with whichever test you want to run.*)
+(*
 let test_or = global_or ex5 in 
 match test_or with
   | Some v -> Printf.printf " Some %b\n" v
   | None -> Printf.printf "None \n" ;;
+*)
 
 
 
-
-  (*
 (*3: test for f_on_int_list. Replace ex1 with whichever test you want to run*)
 let f x = x + 1 in 
 let test_f = f_on_int_list f ex4 in 
 Printf.printf "%s\n" (tostring test_f);;
 
+(*
 (*4: sum_all_ints test. Replace ex1 with whichever test you want to run*)
 let result = sum_all_ints ex1 in 
 match result with
