@@ -22,19 +22,18 @@ let rec count_u (p: printable) : int =
   | _ -> 0
 
 
-
-  let rec global_or (p : printable) : bool option = 
+let rec global_or (p : printable) : bool option = 
   (*implement steps for the global_or here.
   This function should compute the logical or of each boolean within the closure p*)
     match p with 
-  | B b -> Some b
-  | P (p1, p2) -> (*parenthesis around match so compiler stop freaking out*)
+    | B b -> Some b
+    | P (p1, p2) -> (*parenthesis around match so compiler stop freaking out*)
       (match (global_or p1, global_or p2) with
        | Some b1, None -> Some b1
        | None, Some b2 -> Some b2
        | Some b1, Some b2 -> Some (b1 || b2)
        | _ -> None) 
-  | _ -> None
+    | _ -> None
 
 
 let rec f_on_int_list (f : int-> int) (p : printable) : printable = 
@@ -45,7 +44,7 @@ let rec f_on_int_list (f : int-> int) (p : printable) : printable =
   | P (p1, p2) -> P (f_on_int_list f p1, f_on_int_list f p2)
   | _ -> p (*leaving it the same*)
 
-(*helper function to *)
+(*helper function to sum_all_ints*)
 let rec sum_list (l : int list) : int = 
   match l with
   | [] -> 0
@@ -68,7 +67,7 @@ let rec sum_all_ints (p : printable) : int option =
 let rec string_of_int_list (l : int list) : string =
   match l with
   | [] -> ""
-  | x::xs -> string_of_int x ^ string_of_int_list xs (*adding element and calling recursively*)
+  | x::xs -> string_of_int x ^ string_of_int_list xs (*concat element and calling recursively*)
 
 let rec tostring (p : printable) : string = 
   (*convers printable element p to a string*)
@@ -81,10 +80,13 @@ let rec tostring (p : printable) : string =
   (*exhaustive because covers all types*)
 
 ;;
+
+
+
 (*Use these lines to test your functions you produce.*)
 
 (*1: *count_u test. Replace ex1 with whichever test you want to run.*)
-(*
+
 Printf.printf "%i\n" (count_u ex0);;
 Printf.printf "%i\n" (count_u ex1);;
 Printf.printf "%i\n" (count_u ex2);;
@@ -93,25 +95,17 @@ Printf.printf "%i\n" (count_u ex4);;
 Printf.printf "%i\n" (count_u ex5);;
 Printf.printf "%i\n" (count_u ex6);;
 Printf.printf "%i\n" (count_u ex7);;
-*)
-
-
 
 (*2: global_or test. Replace ex1 with whichever test you want to run.*)
-(*
 let test_or = global_or ex5 in 
 match test_or with
-  | Some v -> Printf.printf " Some %b\n" v
+  | Some v -> Printf.printf "Some %b\n" v
   | None -> Printf.printf "None \n" ;;
-
-
-
 
 (*3: test for f_on_int_list. Replace ex1 with whichever test you want to run*)
 let f x = x + 1 in 
 let test_f = f_on_int_list f ex4 in 
 Printf.printf "%s\n" (tostring test_f);;
-*)
 
 (*4: sum_all_ints test. Replace ex1 with whichever test you want to run*)
 let result = sum_all_ints (f_on_int_list (fun t-> t*t) ex6) in 
@@ -119,10 +113,15 @@ match result with
   | Some v -> Printf.printf "%i\n" v
   | None -> Printf.printf "None \n";;
 
-
-(*
 (*5: test for toString. Replace ex1 with the test*)
+Printf.printf "%s\n" (tostring ex0);;
 Printf.printf "%s\n" (tostring ex1);;
-*)
+Printf.printf "%s\n" (tostring ex2);;
+Printf.printf "%s\n" (tostring ex3);;
+Printf.printf "%s\n" (tostring ex4);;
+Printf.printf "%s\n" (tostring ex5);;
+Printf.printf "%s\n" (tostring ex6);;
+Printf.printf "%s\n" (tostring ex7);;
+
 
 
